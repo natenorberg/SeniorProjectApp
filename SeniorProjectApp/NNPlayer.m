@@ -50,7 +50,11 @@
     CheckError(AUGraphStart(player.graph), "AUGraphStart failed");
     
     // Sleep until the file is finished
-    usleep((int)(fileDuration * 1000.0 * 1000.0));
+    //usleep((int)(fileDuration * 1000.0 * 1000.0));
+}
+
+-(void)setVolume:(double)volume {
+    CheckError(AudioUnitSetParameter(player.mixerAU, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0), "Set volume failed");
 }
 
 // Error handling function
@@ -88,6 +92,16 @@ void CreateAUGraph(GraphPlayer *player) {
     AUNode outputNode;
     CheckError(AUGraphAddNode(player->graph, &outputDescription, &outputNode), "AUGraphAddNode[kAudioUnitSubType_DefaultOutput] failed");
     
+    // Create a description for a mixer unit
+    AudioComponentDescription mixerDescription = {0};
+    mixerDescription.componentType = kAudioUnitType_Mixer;
+    mixerDescription.componentSubType = kAudioUnitSubType_MultiChannelMixer;
+    mixerDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
+    
+    // Add the mixer node to the graph
+    AUNode mixerNode;
+    CheckError(AUGraphAddNode(player->graph, &mixerDescription, &mixerNode), "Failed to add mixer node to graph");
+    
     // Create a description that matches the audio player
     AudioComponentDescription playerDescription = {0};
     playerDescription.componentType = kAudioUnitType_Generator;
@@ -104,8 +118,17 @@ void CreateAUGraph(GraphPlayer *player) {
     // Get the reference to the AudioUnit object for the file player graph node
     CheckError(AUGraphNodeInfo(player->graph, playerNode, NULL, &player->fileAU), "AUGraphNodeInfo failed");
     
+    // Get the reference to the AudioUnit object for the mixer graph node
+    CheckError(AUGraphNodeInfo(player->graph, mixerNode, NULL, &player->mixerAU), "Get mixer AudioUnit failed");
+    
+    // Get the reference to the AudioUnit object for the output node
+    CheckError(AUGraphNodeInfo(player->graph, outputNode, NULL, &player->outputAU), "Get output AudioUnit failed");
+    
     // Connect the nodes
-    CheckError(AUGraphConnectNodeInput(player->graph, playerNode, 0, outputNode, 0), "AUGraphConnectNodeInput failed");
+    CheckError(AUGraphConnectNodeInput(player->graph, playerNode, 0, mixerNode, 0), "Player -> Mixer failed");
+    CheckError(AUGraphConnectNodeInput(player->graph, mixerNode, 0, outputNode, 0), "Mixer -> Output failed");
+    
+//    CheckError(AUGraphConnectNodeInput(player->graph, playerNode, 0, outputNode, 0), "AUGraphConnectNodeInput failed");
     
     // Initialize the AUGraph
     CheckError(AUGraphInitialize(player->graph), "AUGraphInitialize failed");

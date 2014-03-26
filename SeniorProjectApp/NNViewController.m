@@ -37,4 +37,10 @@
     [[self player] playSound];
 }
 
+- (IBAction)volumeChanged:(id)sender {
+    UISlider *slider = (UISlider*)sender;
+    
+    [[self player] setVolume:slider.value];
+}
+
 @end

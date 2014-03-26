@@ -14,13 +14,19 @@ typedef struct GraphPlayer {
     AudioFileID inputFile;
     AUGraph graph;
     AudioUnit fileAU;
+    AudioUnit mixerAU;
+    AudioUnit outputAU;
 } GraphPlayer;
 
 @interface NNPlayer : NSObject
 {
     GraphPlayer player;
     Float64 fileDuration;
+    
+    AudioUnit outputUnit;
 }
+
 -(void)playSound;
+-(void)setVolume:(double)volume;
 
 @end
