@@ -22,6 +22,10 @@
 		EBBB7BAA18DA048D00A69BA8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7B8918DA048D00A69BA8 /* UIKit.framework */; };
 		EBBB7BB218DA048D00A69BA8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBBB7BB018DA048D00A69BA8 /* InfoPlist.strings */; };
 		EBBB7BB418DA048D00A69BA8 /* SeniorProjectAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EBBB7BB318DA048D00A69BA8 /* SeniorProjectAppTests.m */; };
+		EBBB7BBF18DA04A700A69BA8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7BBD18DA04A700A69BA8 /* AudioToolbox.framework */; };
+		EBBB7BC318DA069000A69BA8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7BC218DA069000A69BA8 /* CoreAudio.framework */; };
+		EBC4170818DE047700C199F7 /* NNPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC4170718DE047700C199F7 /* NNPlayer.m */; };
+		EBC4170B18DF971600C199F7 /* synth_strings.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EBC4170A18DF971600C199F7 /* synth_strings.aiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +59,12 @@
 		EBBB7BAF18DA048D00A69BA8 /* SeniorProjectAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SeniorProjectAppTests-Info.plist"; sourceTree = "<group>"; };
 		EBBB7BB118DA048D00A69BA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EBBB7BB318DA048D00A69BA8 /* SeniorProjectAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeniorProjectAppTests.m; sourceTree = "<group>"; };
+		EBBB7BBD18DA04A700A69BA8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		EBBB7BBE18DA04A700A69BA8 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		EBBB7BC218DA069000A69BA8 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		EBC4170618DE047700C199F7 /* NNPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNPlayer.h; sourceTree = "<group>"; };
+		EBC4170718DE047700C199F7 /* NNPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NNPlayer.m; sourceTree = "<group>"; };
+		EBC4170A18DF971600C199F7 /* synth_strings.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = synth_strings.aiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBBB7BC318DA069000A69BA8 /* CoreAudio.framework in Frameworks */,
+				EBBB7BBF18DA04A700A69BA8 /* AudioToolbox.framework in Frameworks */,
 				EBBB7B8818DA048D00A69BA8 /* CoreGraphics.framework in Frameworks */,
 				EBBB7B8A18DA048D00A69BA8 /* UIKit.framework in Frameworks */,
 				EBBB7B8618DA048D00A69BA8 /* Foundation.framework in Frameworks */,
@@ -103,6 +115,9 @@
 		EBBB7B8418DA048D00A69BA8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBBB7BC218DA069000A69BA8 /* CoreAudio.framework */,
+				EBBB7BBD18DA04A700A69BA8 /* AudioToolbox.framework */,
+				EBBB7BBE18DA04A700A69BA8 /* AudioUnit.framework */,
 				EBBB7B8518DA048D00A69BA8 /* Foundation.framework */,
 				EBBB7B8718DA048D00A69BA8 /* CoreGraphics.framework */,
 				EBBB7B8918DA048D00A69BA8 /* UIKit.framework */,
@@ -114,6 +129,7 @@
 		EBBB7B8B18DA048D00A69BA8 /* SeniorProjectApp */ = {
 			isa = PBXGroup;
 			children = (
+				EBC4170918DF96FC00C199F7 /* Resources */,
 				EBBB7B9418DA048D00A69BA8 /* NNAppDelegate.h */,
 				EBBB7B9518DA048D00A69BA8 /* NNAppDelegate.m */,
 				EBBB7B9718DA048D00A69BA8 /* Main_iPhone.storyboard */,
@@ -122,6 +138,8 @@
 				EBBB7B9E18DA048D00A69BA8 /* NNViewController.m */,
 				EBBB7BA018DA048D00A69BA8 /* Images.xcassets */,
 				EBBB7B8C18DA048D00A69BA8 /* Supporting Files */,
+				EBC4170618DE047700C199F7 /* NNPlayer.h */,
+				EBC4170718DE047700C199F7 /* NNPlayer.m */,
 			);
 			path = SeniorProjectApp;
 			sourceTree = "<group>";
@@ -153,6 +171,14 @@
 				EBBB7BB018DA048D00A69BA8 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EBC4170918DF96FC00C199F7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EBC4170A18DF971600C199F7 /* synth_strings.aiff */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +229,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Nate Norberg";
 				TargetAttributes = {
+					EBBB7B8118DA048D00A69BA8 = {
+						DevelopmentTeam = 93QYHMT37F;
+					};
 					EBBB7BA518DA048D00A69BA8 = {
 						TestTargetID = EBBB7B8118DA048D00A69BA8;
 					};
@@ -233,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBBB7B9C18DA048D00A69BA8 /* Main_iPad.storyboard in Resources */,
+				EBC4170B18DF971600C199F7 /* synth_strings.aiff in Resources */,
 				EBBB7BA118DA048D00A69BA8 /* Images.xcassets in Resources */,
 				EBBB7B9918DA048D00A69BA8 /* Main_iPhone.storyboard in Resources */,
 				EBBB7B9018DA048D00A69BA8 /* InfoPlist.strings in Resources */,
@@ -256,6 +286,7 @@
 			files = (
 				EBBB7B9F18DA048D00A69BA8 /* NNViewController.m in Sources */,
 				EBBB7B9618DA048D00A69BA8 /* NNAppDelegate.m in Sources */,
+				EBC4170818DE047700C199F7 /* NNPlayer.m in Sources */,
 				EBBB7B9218DA048D00A69BA8 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,10 +422,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SeniorProjectApp/SeniorProjectApp-Prefix.pch";
 				INFOPLIST_FILE = "SeniorProjectApp/SeniorProjectApp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -404,10 +438,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SeniorProjectApp/SeniorProjectApp-Prefix.pch";
 				INFOPLIST_FILE = "SeniorProjectApp/SeniorProjectApp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -471,6 +508,7 @@
 				EBBB7BB918DA048D00A69BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EBBB7BBA18DA048D00A69BA8 /* Build configuration list for PBXNativeTarget "SeniorProjectAppTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +517,7 @@
 				EBBB7BBC18DA048D00A69BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
