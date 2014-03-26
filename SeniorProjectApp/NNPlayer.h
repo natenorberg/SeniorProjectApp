@@ -14,6 +14,7 @@ typedef struct GraphPlayer {
     AudioFileID inputFile;
     AUGraph graph;
     AudioUnit fileAU;
+    AudioUnit filterAU;
     AudioUnit mixerAU;
     AudioUnit outputAU;
 } GraphPlayer;
@@ -26,7 +27,11 @@ typedef struct GraphPlayer {
     AudioUnit outputUnit;
 }
 
+@property (assign, nonatomic) Boolean isPlaying;
+
 -(void)playSound;
+-(void)stopSound;
 -(void)setVolume:(double)volume;
+-(void)setCutoff:(double)frequency;
 
 @end

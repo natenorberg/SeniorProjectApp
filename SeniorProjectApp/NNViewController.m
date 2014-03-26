@@ -29,18 +29,27 @@
 }
 
 -(IBAction)playSound:(UIButton *)sender {
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sound playing"
-//                                                    message:@"You pressed the play button"
-//                                                   delegate:nil cancelButtonTitle:@"OK"
-//                                          otherButtonTitles:nil, nil];
-//    [alert show];
-    [[self player] playSound];
+    if (![[self player] isPlaying]) {
+        [[self player] playSound];
+        [[self playButton] setTitle:@"Stop" forState:UIControlStateNormal];
+        [[self playButton] setTintColor:[UIColor redColor]];
+    }
+    else {
+        [[self player] stopSound];
+        [[self playButton] setTitle:@"Play" forState:UIControlStateNormal];
+        [[self playButton] setTintColor:[[UIColor alloc] initWithRed:0 green:0.5 blue:0 alpha:1]];
+    }
 }
 
 - (IBAction)volumeChanged:(id)sender {
     UISlider *slider = (UISlider*)sender;
     
     [[self player] setVolume:slider.value];
+}
+
+- (IBAction)filterCutoffChanged:(UISlider*)sender {
+    [[self player] setCutoff:sender.value];
+    _cutoffLabel.text = [NSString stringWithFormat:@"%d", (int)sender.value];
 }
 
 @end

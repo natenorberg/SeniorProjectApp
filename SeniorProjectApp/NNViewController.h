@@ -19,10 +19,12 @@
 }
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UISlider *volumeFader;
+@property (weak, nonatomic) IBOutlet UILabel *cutoffLabel;
 
 @property (strong, nonatomic) NNPlayer *player;
 
 - (IBAction)playSound:(UIButton*)sender;
 - (IBAction)volumeChanged:(id)sender;
+- (IBAction)filterCutoffChanged:(id)sender;
 
 @end

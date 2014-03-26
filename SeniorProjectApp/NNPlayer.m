@@ -45,16 +45,23 @@
 }
 
 -(void)playSound {
-    
     // Start playing
     CheckError(AUGraphStart(player.graph), "AUGraphStart failed");
-    
-    // Sleep until the file is finished
-    //usleep((int)(fileDuration * 1000.0 * 1000.0));
+    _isPlaying = true;
+}
+
+-(void)stopSound {
+    // Stop playing
+    CheckError(AUGraphStop(player.graph), "AUGraphStop failed");
+    _isPlaying = false;
 }
 
 -(void)setVolume:(double)volume {
     CheckError(AudioUnitSetParameter(player.mixerAU, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0), "Set volume failed");
+}
+
+-(void)setCutoff:(double)frequency {
+    CheckError(AudioUnitSetParameter(player.filterAU, kLowPassParam_CutoffFrequency, kAudioUnitScope_Global, 0, frequency, 0), "Set cutoff frequency failed");
 }
 
 // Error handling function
@@ -82,41 +89,19 @@ void CreateAUGraph(GraphPlayer *player) {
     //Create a new AUGraph
     CheckError(NewAUGraph(&player->graph), "NewAUGraph failed");
     
-    // Generate description that matches output device
-    AudioComponentDescription outputDescription = {0};
-    outputDescription.componentType = kAudioUnitType_Output;
-    outputDescription.componentSubType = kAudioUnitSubType_RemoteIO;
-    outputDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-    
-    // Adds a node with the output description to the graph
-    AUNode outputNode;
-    CheckError(AUGraphAddNode(player->graph, &outputDescription, &outputNode), "AUGraphAddNode[kAudioUnitSubType_DefaultOutput] failed");
-    
-    // Create a description for a mixer unit
-    AudioComponentDescription mixerDescription = {0};
-    mixerDescription.componentType = kAudioUnitType_Mixer;
-    mixerDescription.componentSubType = kAudioUnitSubType_MultiChannelMixer;
-    mixerDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-    
-    // Add the mixer node to the graph
-    AUNode mixerNode;
-    CheckError(AUGraphAddNode(player->graph, &mixerDescription, &mixerNode), "Failed to add mixer node to graph");
-    
-    // Create a description that matches the audio player
-    AudioComponentDescription playerDescription = {0};
-    playerDescription.componentType = kAudioUnitType_Generator;
-    playerDescription.componentSubType = kAudioUnitSubType_AudioFilePlayer;
-    playerDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-    
-    // Add a node with the player description to the graph
-    AUNode playerNode;
-    CheckError(AUGraphAddNode(player->graph, &playerDescription, &playerNode), "AUGraphAddNode[kAudioUnitSubType_AudioFilePlayer] failed");
+    AUNode outputNode = CreateNode(kAudioUnitType_Output, kAudioUnitSubType_RemoteIO, player->graph);
+    AUNode mixerNode  = CreateNode(kAudioUnitType_Mixer, kAudioUnitSubType_MultiChannelMixer, player->graph);
+    AUNode filterNode = CreateNode(kAudioUnitType_Effect, kAudioUnitSubType_LowPassFilter, player->graph);
+    AUNode playerNode = CreateNode(kAudioUnitType_Generator, kAudioUnitSubType_AudioFilePlayer, player->graph);
     
     // Opening the graph opens all contained audio units but does not allocate any resources yet
     CheckError(AUGraphOpen(player->graph), "AUGraphOpen failed");
     
     // Get the reference to the AudioUnit object for the file player graph node
     CheckError(AUGraphNodeInfo(player->graph, playerNode, NULL, &player->fileAU), "AUGraphNodeInfo failed");
+    
+    // Get the reference to the AudioUnit object for the filter graph node
+    CheckError(AUGraphNodeInfo(player->graph, filterNode, NULL, &player->filterAU), "AUGraphNodeInfo failed");
     
     // Get the reference to the AudioUnit object for the mixer graph node
     CheckError(AUGraphNodeInfo(player->graph, mixerNode, NULL, &player->mixerAU), "Get mixer AudioUnit failed");
@@ -125,13 +110,25 @@ void CreateAUGraph(GraphPlayer *player) {
     CheckError(AUGraphNodeInfo(player->graph, outputNode, NULL, &player->outputAU), "Get output AudioUnit failed");
     
     // Connect the nodes
-    CheckError(AUGraphConnectNodeInput(player->graph, playerNode, 0, mixerNode, 0), "Player -> Mixer failed");
+    CheckError(AUGraphConnectNodeInput(player->graph, playerNode, 0, filterNode, 0), "Player -> Filter failed");
+    CheckError(AUGraphConnectNodeInput(player->graph, filterNode, 0, mixerNode, 0), "Filter -> Mixer failed");
     CheckError(AUGraphConnectNodeInput(player->graph, mixerNode, 0, outputNode, 0), "Mixer -> Output failed");
-    
-//    CheckError(AUGraphConnectNodeInput(player->graph, playerNode, 0, outputNode, 0), "AUGraphConnectNodeInput failed");
     
     // Initialize the AUGraph
     CheckError(AUGraphInitialize(player->graph), "AUGraphInitialize failed");
+}
+
+// Creates an AUNode and adds it to the graph
+AUNode CreateNode(OSType componentType, OSType componentSubType, AUGraph graph) {
+    AudioComponentDescription description = {0};
+    description.componentType = componentType;
+    description.componentSubType = componentSubType;
+    description.componentManufacturer = kAudioUnitManufacturer_Apple;
+    
+    AUNode node;
+    CheckError(AUGraphAddNode(graph, &description, &node), "AUGraphAddNodeFailed");
+    
+    return node;
 }
 
 Float64 PrepareFileAU(GraphPlayer *player) {
