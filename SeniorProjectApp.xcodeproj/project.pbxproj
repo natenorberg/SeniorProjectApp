@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EBA1007C18E675B4007596F4 /* granular_strings.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EBA1007B18E675B4007596F4 /* granular_strings.aiff */; };
 		EBBB7B8618DA048D00A69BA8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7B8518DA048D00A69BA8 /* Foundation.framework */; };
 		EBBB7B8818DA048D00A69BA8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7B8718DA048D00A69BA8 /* CoreGraphics.framework */; };
 		EBBB7B8A18DA048D00A69BA8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7B8918DA048D00A69BA8 /* UIKit.framework */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EBA1007B18E675B4007596F4 /* granular_strings.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = granular_strings.aiff; sourceTree = "<group>"; };
 		EBBB7B8218DA048D00A69BA8 /* SeniorProjectApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeniorProjectApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBBB7B8518DA048D00A69BA8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EBBB7B8718DA048D00A69BA8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				EBC4170A18DF971600C199F7 /* synth_strings.aiff */,
+				EBA1007B18E675B4007596F4 /* granular_strings.aiff */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				EBC4170B18DF971600C199F7 /* synth_strings.aiff in Resources */,
 				EBBB7BA118DA048D00A69BA8 /* Images.xcassets in Resources */,
 				EBBB7B9918DA048D00A69BA8 /* Main_iPhone.storyboard in Resources */,
+				EBA1007C18E675B4007596F4 /* granular_strings.aiff in Resources */,
 				EBBB7B9018DA048D00A69BA8 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,7 +14,7 @@
 
 -(id)init {
     if (self = [super init]) {
-        NSString *path = [NSString stringWithFormat:@"%@/synth_strings.aiff", [[NSBundle mainBundle] resourcePath]];
+        NSString *path = [NSString stringWithFormat:@"%@/granular_strings.aiff", [[NSBundle mainBundle] resourcePath]];
         NSURL *inputFileURL = [NSURL fileURLWithPath:path];
         
         //    NSURL *inputFileURL = [[NSBundle mainBundle] URLForResource:@"synth_strings" withExtension:@"aiff"];
