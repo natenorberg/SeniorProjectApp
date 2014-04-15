@@ -17,11 +17,6 @@
         NSString *path = [NSString stringWithFormat:@"%@/granular_strings.aiff", [[NSBundle mainBundle] resourcePath]];
         NSURL *inputFileURL = [NSURL fileURLWithPath:path];
         
-        //    NSURL *inputFileURL = [[NSBundle mainBundle] URLForResource:@"synth_strings" withExtension:@"aiff"];
-        
-        //    CFURLRef inputFileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, url, kCFURLPOSIXPathStyle, false);
-        //    CFURLRef inputFileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, kInputFileLocation, kCFURLPOSIXPathStyle, false);
-        
         // Open the input audio file
         CheckError(AudioFileOpenURL((__bridge CFURLRef)(inputFileURL), kAudioFileReadPermission, 0, &player.inputFile), "AudioFileOpenURL failed");
         CFRelease((__bridge CFTypeRef)(inputFileURL));
@@ -56,12 +51,25 @@
     _isPlaying = false;
 }
 
+
 -(void)setVolume:(double)volume {
-    CheckError(AudioUnitSetParameter(player.mixerAU, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0), "Set volume failed");
+    CheckError(AudioUnitSetParameter(player.mixerAU, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0),
+               "Set volume failed");
 }
 
--(void)setCutoff:(double)frequency {
-    CheckError(AudioUnitSetParameter(player.filterAU, kLowPassParam_CutoffFrequency, kAudioUnitScope_Global, 0, frequency, 0), "Set cutoff frequency failed");
+-(void)setPanning:(double)panning {
+    CheckError(AudioUnitSetParameter(player.mixerAU, kMultiChannelMixerParam_Pan, kAudioUnitScope_Global, 0, panning, 0),
+               "Set panning failed");
+}
+
+-(void)setCenterFrequency:(double)frequency {
+    CheckError(AudioUnitSetParameter(player.filterAU, kBandpassParam_CenterFrequency, kAudioUnitScope_Global, 0, frequency, 0),
+               "Set cutoff frequency failed");
+}
+
+-(void)setBandwidth:(double)bandwidth {
+    CheckError(AudioUnitSetParameter(player.filterAU, kBandpassParam_Bandwidth, kAudioUnitScope_Global, 0, bandwidth, 0),
+               "Set bandwidth failed");
 }
 
 // Error handling function
@@ -91,7 +99,7 @@ void CreateAUGraph(GraphPlayer *player) {
     
     AUNode outputNode = CreateNode(kAudioUnitType_Output, kAudioUnitSubType_RemoteIO, player->graph);
     AUNode mixerNode  = CreateNode(kAudioUnitType_Mixer, kAudioUnitSubType_MultiChannelMixer, player->graph);
-    AUNode filterNode = CreateNode(kAudioUnitType_Effect, kAudioUnitSubType_LowPassFilter, player->graph);
+    AUNode filterNode = CreateNode(kAudioUnitType_Effect, kAudioUnitSubType_BandPassFilter, player->graph);
     AUNode playerNode = CreateNode(kAudioUnitType_Generator, kAudioUnitSubType_AudioFilePlayer, player->graph);
     
     // Opening the graph opens all contained audio units but does not allocate any resources yet

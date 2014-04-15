@@ -8,6 +8,9 @@
 
 #import "NNViewController.h"
 
+#define kFilterMinimumFrequency 100
+#define kFilterMaximumFrequency 20000
+
 @interface NNViewController ()
 
 @end
@@ -19,6 +22,7 @@
     [super viewDidLoad];
     
     _player = [[NNPlayer alloc] init];
+    self.volume = 1.0;
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -43,6 +47,48 @@
     _volumeLabel.text = [NSString stringWithFormat:@"%d", (int)(_volume * 100)];
 }
 
+-(void)setPanning:(double)panning {
+    if (panning > 1) {
+        _panning = 1;
+    }
+    else if (panning < -1) {
+        _panning = -1;
+    }
+    else {
+        _panning = panning;
+    }
+    
+    [[self player] setPanning:_panning];
+    _panningLabel.text = [NSString stringWithFormat:@"%f", _panning];
+}
+
+-(void)setCenterFrequency:(double)centerFrequency {
+    if (centerFrequency > 22050)
+        _centerFrequency = 22050;
+    else if (centerFrequency < 100)
+        _centerFrequency = 100;
+    else
+        _centerFrequency = centerFrequency;
+    
+    [[self player] setCenterFrequency:_centerFrequency];
+    _centerFrequencyLabel.text = [NSString stringWithFormat:@"%d", (int)_centerFrequency];
+}
+
+-(void)setBandwidth:(double)bandwidth {
+    if (bandwidth > kFilterMaximumFrequency) {
+        _bandwidth = kFilterMaximumFrequency;
+    }
+    if (bandwidth < kFilterMinimumFrequency) {
+        _bandwidth = kFilterMinimumFrequency;
+    }
+    else {
+        _bandwidth = bandwidth;
+    }
+    
+    [[self player] setBandwidth:_bandwidth];
+    _bandwidthLabel.text = [NSString stringWithFormat:@"%d", (int)_bandwidth];
+}
+
 -(IBAction)playSound:(id)sender {
     if (![[self player] isPlaying]) {
         [[self player] playSound];
@@ -62,11 +108,6 @@
     [self setVolume:slider.value];
 }
 
-- (IBAction)filterCutoffChanged:(UISlider*)sender {
-    [[self player] setCutoff:sender.value];
-    _cutoffLabel.text = [NSString stringWithFormat:@"%d", (int)sender.value];
-}
-
 - (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender {
     CGFloat scale =
     [(UIPinchGestureRecognizer *)sender scale];
@@ -78,20 +119,37 @@
                               scale, velocity];
     _statusLabel.text = resultString;
     
-    double cutoff = (scale * 4500) - 1200;
-    [[self player] setCutoff:cutoff];
-    _cutoffLabel.text = [NSString stringWithFormat:@"%d", (int)cutoff];
+    double bandwidth = (scale * 600);
+    self.bandwidth = bandwidth;
     
 }
 
 - (IBAction)panDetected:(UIPanGestureRecognizer *)sender {
-    CGPoint point = [sender translationInView:[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject]];
-    double change = - point.y;
-    double volumeChange = change / 5000.0;
+    CGPoint point = [sender translationInView:self.touchPanel];
+    double yChange = - point.y;
+    double volumeChange = yChange / 5000.0;
     
-    [self setVolume:[self volume] + volumeChange];
+    if ([sender numberOfTouches] == 2)
+        [self setVolume:[self volume] + volumeChange];
     
     _statusLabel.text = [NSString stringWithFormat:@"Panning: %f", -point.y];
+    
+    if ([sender numberOfTouches] == 1) {
+        double xChange = point.x;
+        double frequencyChange = xChange;
+        self.centerFrequency = self.centerFrequency + frequencyChange;
+    }
+}
+
+- (IBAction)rotationDectected:(UIRotationGestureRecognizer *)sender {
+    CGFloat rotation = [sender rotation];
+    _statusLabel.text = [NSString stringWithFormat:@"Rotation: %f", rotation];
+    
+    double panning = rotation * 0.5;
+    self.panning = panning;
+}
+
+- (IBAction)switchSound:(id)sender {
 }
  
 @end

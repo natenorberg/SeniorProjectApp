@@ -32,6 +32,8 @@ typedef struct GraphPlayer {
 -(void)playSound;
 -(void)stopSound;
 -(void)setVolume:(double)volume;
--(void)setCutoff:(double)frequency;
-
+-(void)setPanning:(double)panning;
+// Filter settings
+-(void)setCenterFrequency:(double)frequency;
+-(void)setBandwidth:(double)bandwidth;
 @end
