@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB061947190B82480060D720 /* breath_a_trim.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB061946190B82480060D720 /* breath_a_trim.aiff */; };
+		EB061949190B82500060D720 /* breath_b_trim.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB061948190B82500060D720 /* breath_b_trim.aiff */; };
 		EBA1007C18E675B4007596F4 /* granular_strings.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EBA1007B18E675B4007596F4 /* granular_strings.aiff */; };
 		EBBB7B8618DA048D00A69BA8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7B8518DA048D00A69BA8 /* Foundation.framework */; };
 		EBBB7B8818DA048D00A69BA8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7B8718DA048D00A69BA8 /* CoreGraphics.framework */; };
@@ -27,6 +29,8 @@
 		EBBB7BC318DA069000A69BA8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBB7BC218DA069000A69BA8 /* CoreAudio.framework */; };
 		EBC4170818DE047700C199F7 /* NNPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC4170718DE047700C199F7 /* NNPlayer.m */; };
 		EBC4170B18DF971600C199F7 /* synth_strings.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EBC4170A18DF971600C199F7 /* synth_strings.aiff */; };
+		EBD4D6441904876700D0DFAE /* breath_e.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EBD4D6431904876700D0DFAE /* breath_e.aiff */; };
+		EBD4D6461904896000D0DFAE /* breath_e_trimed.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EBD4D6451904896000D0DFAE /* breath_e_trimed.aiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB061946190B82480060D720 /* breath_a_trim.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = breath_a_trim.aiff; sourceTree = "<group>"; };
+		EB061948190B82500060D720 /* breath_b_trim.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = breath_b_trim.aiff; sourceTree = "<group>"; };
 		EBA1007B18E675B4007596F4 /* granular_strings.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = granular_strings.aiff; sourceTree = "<group>"; };
 		EBBB7B8218DA048D00A69BA8 /* SeniorProjectApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeniorProjectApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBBB7B8518DA048D00A69BA8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -67,6 +73,8 @@
 		EBC4170618DE047700C199F7 /* NNPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNPlayer.h; sourceTree = "<group>"; };
 		EBC4170718DE047700C199F7 /* NNPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NNPlayer.m; sourceTree = "<group>"; };
 		EBC4170A18DF971600C199F7 /* synth_strings.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = synth_strings.aiff; sourceTree = "<group>"; };
+		EBD4D6431904876700D0DFAE /* breath_e.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = breath_e.aiff; sourceTree = "<group>"; };
+		EBD4D6451904896000D0DFAE /* breath_e_trimed.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = breath_e_trimed.aiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +187,11 @@
 			isa = PBXGroup;
 			children = (
 				EBC4170A18DF971600C199F7 /* synth_strings.aiff */,
+				EB061946190B82480060D720 /* breath_a_trim.aiff */,
 				EBA1007B18E675B4007596F4 /* granular_strings.aiff */,
+				EBD4D6451904896000D0DFAE /* breath_e_trimed.aiff */,
+				EB061948190B82500060D720 /* breath_b_trim.aiff */,
+				EBD4D6431904876700D0DFAE /* breath_e.aiff */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -264,11 +276,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB061949190B82500060D720 /* breath_b_trim.aiff in Resources */,
 				EBBB7B9C18DA048D00A69BA8 /* Main_iPad.storyboard in Resources */,
 				EBC4170B18DF971600C199F7 /* synth_strings.aiff in Resources */,
 				EBBB7BA118DA048D00A69BA8 /* Images.xcassets in Resources */,
 				EBBB7B9918DA048D00A69BA8 /* Main_iPhone.storyboard in Resources */,
 				EBA1007C18E675B4007596F4 /* granular_strings.aiff in Resources */,
+				EBD4D6441904876700D0DFAE /* breath_e.aiff in Resources */,
+				EBD4D6461904896000D0DFAE /* breath_e_trimed.aiff in Resources */,
+				EB061947190B82480060D720 /* breath_a_trim.aiff in Resources */,
 				EBBB7B9018DA048D00A69BA8 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

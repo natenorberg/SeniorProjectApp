@@ -16,6 +16,7 @@ typedef struct GraphPlayer {
     AudioUnit fileAU;
     AudioUnit filterAU;
     AudioUnit mixerAU;
+    AudioUnit reverbAU;
     AudioUnit outputAU;
 } GraphPlayer;
 

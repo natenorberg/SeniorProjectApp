@@ -14,7 +14,7 @@
 
 -(id)init {
     if (self = [super init]) {
-        NSString *path = [NSString stringWithFormat:@"%@/granular_strings.aiff", [[NSBundle mainBundle] resourcePath]];
+        NSString *path = [NSString stringWithFormat:@"%@/breath_e_trimed.aiff", [[NSBundle mainBundle] resourcePath]];
         NSURL *inputFileURL = [NSURL fileURLWithPath:path];
         
         // Open the input audio file
@@ -47,6 +47,7 @@
 
 -(void)stopSound {
     // Stop playing
+    NSLog(@"Stopped");
     CheckError(AUGraphStop(player.graph), "AUGraphStop failed");
     _isPlaying = false;
 }
@@ -58,7 +59,7 @@
 }
 
 -(void)setPanning:(double)panning {
-    CheckError(AudioUnitSetParameter(player.mixerAU, kMultiChannelMixerParam_Pan, kAudioUnitScope_Global, 0, panning, 0),
+    CheckError(AudioUnitSetParameter(player.mixerAU, kMultiChannelMixerParam_Pan, kAudioUnitScope_Output, 0, panning, 0),
                "Set panning failed");
 }
 
@@ -99,6 +100,7 @@ void CreateAUGraph(GraphPlayer *player) {
     
     AUNode outputNode = CreateNode(kAudioUnitType_Output, kAudioUnitSubType_RemoteIO, player->graph);
     AUNode mixerNode  = CreateNode(kAudioUnitType_Mixer, kAudioUnitSubType_MultiChannelMixer, player->graph);
+    AUNode reverbNode = CreateNode(kAudioUnitType_Effect, kAudioUnitSubType_Reverb2, player->graph);
     AUNode filterNode = CreateNode(kAudioUnitType_Effect, kAudioUnitSubType_BandPassFilter, player->graph);
     AUNode playerNode = CreateNode(kAudioUnitType_Generator, kAudioUnitSubType_AudioFilePlayer, player->graph);
     
@@ -111,6 +113,9 @@ void CreateAUGraph(GraphPlayer *player) {
     // Get the reference to the AudioUnit object for the filter graph node
     CheckError(AUGraphNodeInfo(player->graph, filterNode, NULL, &player->filterAU), "AUGraphNodeInfo failed");
     
+    // Get the reference to the AudioUnit object for the reverb graph node
+    CheckError(AUGraphNodeInfo(player->graph, reverbNode, NULL, &player->reverbAU), "Get reverb AudioUnit failed");
+    
     // Get the reference to the AudioUnit object for the mixer graph node
     CheckError(AUGraphNodeInfo(player->graph, mixerNode, NULL, &player->mixerAU), "Get mixer AudioUnit failed");
     
@@ -119,8 +124,9 @@ void CreateAUGraph(GraphPlayer *player) {
     
     // Connect the nodes
     CheckError(AUGraphConnectNodeInput(player->graph, playerNode, 0, filterNode, 0), "Player -> Filter failed");
-    CheckError(AUGraphConnectNodeInput(player->graph, filterNode, 0, mixerNode, 0), "Filter -> Mixer failed");
-    CheckError(AUGraphConnectNodeInput(player->graph, mixerNode, 0, outputNode, 0), "Mixer -> Output failed");
+    CheckError(AUGraphConnectNodeInput(player->graph, filterNode, 0, reverbNode, 0), "Filter -> Reverb failed");
+    CheckError(AUGraphConnectNodeInput(player->graph, reverbNode, 0, mixerNode,  0), "Reverb -> Mixer failed");
+    CheckError(AUGraphConnectNodeInput(player->graph, mixerNode,  0, outputNode, 0), "Mixer -> Output failed");
     
     // Initialize the AUGraph
     CheckError(AUGraphInitialize(player->graph), "AUGraphInitialize failed");
@@ -158,7 +164,7 @@ Float64 PrepareFileAU(GraphPlayer *player) {
     region.mCompletionProc = NULL;
     region.mCompletionProcUserData = NULL;
     region.mAudioFile = player->inputFile;
-    region.mLoopCount = 1;
+    region.mLoopCount = -1;
     region.mStartFrame = 0;
     region.mFramesToPlay = numPackets * player->inputFormat.mFramesPerPacket;
     CheckError(AudioUnitSetProperty(player->fileAU, kAudioUnitProperty_ScheduledFileRegion, kAudioUnitScope_Global, 0, &region, sizeof(region)),
